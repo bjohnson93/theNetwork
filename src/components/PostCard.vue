@@ -3,7 +3,9 @@
         <div class="row d-flex p-3">
           <div class="col-9 ">
             <div class="d-flex mb-3">
-              <img class="avatar" :src="post.creator.picture" :alt="post.creator.name">
+              <router-link :to="{name: 'Profile', params: {profileId: post.creatorId}}">
+                <img class="avatar" :src="post.creator.picture" :alt="post.creator.name" title="Open Profile">
+              </router-link>
               <div>
                 <p class="fs-3">{{ post.creator.name }}</p>
                 <p class="fs-3">{{ post.createdAt }}  <i v-if="post.creator.graduated" class="mdi mdi-school"></i></p>
@@ -16,9 +18,12 @@
             <div>
               <div class="justify-content-between d-flex fs-4 mt-2">
                 <div>
-                  <i class="mdi mdi-pencil pe-4 selectable"></i>
-                  <i class="mdi mdi-delete selectable"></i>
+                  <!-- //need to add @click to pencil for edit button, which needs to open form- form component? -->
+                  <i v-if="account.id == post.creatorId" @click="setActivePost()" class="mdi mdi-pencil pe-4 selectable"  data-bs-toggle="#postForm"></i>
+                  <!-- need to add function for delete post -->
+                  <i v-if="account.id == post.creatorId" @click="removePost()" class="mdi mdi-delete selectable"></i>
                 </div> 
+                <!-- need to add function to flip bool on likes -->
                 <div><i  class="mdi mdi-heart-outline">{{post.likes.length}}</i></div>
                 </div>
 
@@ -33,14 +38,40 @@
 
 
 <script>
+import { computed } from "vue";
+import { AppState } from "../AppState.js";
 import { Post } from "../models/Post.js";
+import { postsService } from "../services/PostsService.js";
+import { logger } from "../utils/Logger.js";
+import Pop from "../utils/Pop.js";
 
 export default {
   props: {
     post: { type: Post, required: true}
   },
-  setup(){
-    return {}
+  setup(props){
+    return {
+      account: computed(() => AppState.account),
+      posts: computed(() => AppState.posts),
+      activePost: computed(() => AppState.activePost),
+      setActivePost(){
+        // logger.log('you clicked the edit button')
+        postsService.setActivePost(props.post)
+      },
+      async removePost(){
+        try {
+          const removeConfirm = await Pop.confirm('Are you sure you want to delete you post?')
+          if(!removeConfirm){
+            return
+          }
+          const postToDelete = props.post.id
+          // logger.log('do I have the right id to delete?', postToDelete)
+          await postsService.removePost(postToDelete)
+        } catch (error) {
+          Pop.error(error.message)
+        }
+      },
+    }
   }
 }
 </script>

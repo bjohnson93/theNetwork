@@ -22,6 +22,12 @@
           </router-link>
         </li>
       </ul>
+      
+      <li>
+        <router-link :to="{ name: 'Account' }" class="btn text-info lighten-30 selectable text-uppercase">
+          My Account
+        </router-link>
+      </li>
       <!-- LOGIN COMPONENT HERE -->
       <Login />
     </div>

@@ -1,7 +1,7 @@
 <template>
-  <div class="col-md-9 col-12 bg-dark text-light card">
+  <div v-if="account.id" class="col-md-9 col-12 formColor text-light card">
       <h2>Make a Post</h2>
-      <form id="postForm" @submit.prevent="handleSubmit()">
+      <form class="formColor" id="postForm" @submit.prevent="handleSubmit()">
         <div class="mb-3">
           <label for="postBody">Share what's happening...</label>
           <textarea type="text" id="postBody" minlength="2" maxlength="1000" rows="3" cols="15" class="form-control" v-model="editable.body"></textarea>
@@ -17,7 +17,7 @@
 
 
 <script>
-import { ref, watchEffect } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { postsService } from "../services/PostsService.js";
 import Pop from "../utils/Pop.js";
 import { logger } from "../utils/Logger.js";
@@ -33,6 +33,7 @@ export default {
     })
     //watch effect for active blog? so when a blog is active it can be edited?
     return {
+      account: computed(() => AppState.account),
       editable,
       handleSubmit(){
         if(editable.value.id) {

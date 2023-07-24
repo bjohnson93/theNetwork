@@ -23,8 +23,9 @@
                   <!-- need to add function for delete post -->
                   <i v-if="account.id == post.creatorId" @click="removePost()" class="mdi mdi-delete selectable"></i>
                 </div> 
-                <!-- need to add function to flip bool on likes -->
-                <div><i  class="mdi mdi-heart-outline">{{post.likes.length}}</i></div>
+
+                <div class="checkbox-custom "><i class="mdi mdi-heart-outline selectable" @click="likePost()"></i>
+{{post.likes.length}}</div>
                 </div>
 
             </div>
@@ -55,8 +56,22 @@ export default {
       posts: computed(() => AppState.posts),
       activePost: computed(() => AppState.activePost),
       setActivePost(){
-        // logger.log('you clicked the edit button')
+        // logger.log('you made this post active')
         postsService.setActivePost(props.post)
+      },
+      async likePost(){
+        try {
+          const postData = props.post
+          // logger.log(postData.id, '[post to likes id]')
+          // logger.log(props.post.likeIds, '[likeIds of posts]')
+          // const thisPostsLikes = props.post.likes
+          const myId = this.account.id
+          // logger.log('[is this my id?]', myId) 
+          //this sends through the id of the post itself//
+          await postsService.likePost(postData, myId)
+        } catch (error) {
+          Pop.error(error.message)
+        }
       },
       async removePost(){
         try {
@@ -91,4 +106,6 @@ export default {
     object-fit: cover;
     object-position: center;
   }
+
+  
 </style>

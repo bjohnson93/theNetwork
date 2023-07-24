@@ -37,11 +37,41 @@ class PostsService {
     // map was  not working, but map is needed? will come back later, map breaks button
     // const posts = res.data.posts
     AppState.posts = posts
+  }
+  async changeProfilePage(url) {
+    const res = await api.get(`api/profiles/${url}`)
+    logger.log('[CHANGING PAGE FROM SERVICE]', res.data)
+
+    AppState.older = res.data.older
+    AppState.newer = res.data.newer
+
+    const posts = res.data.posts.map(p => new Post(p))
+    AppState.activeProfile = posts
 
   }
-
   setActivePost(post) {
     AppState.activePost = post
+  }
+  async likePost(postData, myId) {
+    // logger.log('[POST DATA:]', postData, '[MY ID]:', myId)
+    // logger.log(myId)
+    const res = await api.post(`api/posts/:${myId}/like`, postData.id)
+    // logger.log(res.data)
+    //this gets the post by id....
+    // const postIndex = AppState.posts.findIndex(p => p.id == postData.id)
+    // logger.log('res data...', res.data)
+    // AppState.activePost = res.data
+
+    // const likesIndex = res.data.likes.findIndex(like => like.id == myId)
+    // if (!likesIndex) {
+    //   AppState.activePost = postData.likes.push(myId)
+    //   logger.log(postData, 'after pushing')
+    // }
+
+    // const unlike = postData.likes.splice(myId, 1)
+    // AppState.activePost = unlike
+    // logger.log(postData, 'after splicing')
+
   }
   async createPost(newPost) {
     const res = await api.post('api/posts', newPost)

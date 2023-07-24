@@ -10,8 +10,11 @@
 
   <div class="d-flex ">
     <div class=" d-flex align-items-center justify-content-center">
-      <img class="avatar" :src="profile.picture" :alt="profile.name">
-      <h1>{{profile.name}} <i v-if="profile.graduated" class="mdi mdi-school"></i></h1>
+      <img class="avatar me-4" :src="profile.picture" :alt="profile.name">
+      <div class="flex-column">
+        <h1>{{profile.name}} <i v-if="profile.graduated" class="mdi mdi-school"></i></h1>
+        <p class="fs-3">Class: {{ profile.class }}</p>
+      </div>
     </div>
   </div>
   <div class="fs-1">
@@ -31,6 +34,8 @@
     <PostCard :post="post"/>
   </div>
 </section>
+
+
 </template>
 
 
@@ -38,14 +43,23 @@
 import Pop from "../utils/Pop.js";
 import { profilesService} from "../services/ProfilesService.js"
 import { useRoute } from "vue-router";
-import { computed, onMounted } from "vue";
+import { computed, onMounted, onUnmounted } from "vue";
 import { postsService } from "../services/PostsService.js";
 import  PostCard  from "../components/PostCard.vue"
 import { AppState } from "../AppState.js";
+import { logger } from "../utils/Logger.js";
 
 export default {
   setup(){
     const route = useRoute();
+
+    onMounted(() => {
+      profilesService.clearProfiles()
+    })
+
+    onUnmounted(() => {
+      profilesService.clearProfiles()
+    })
 
     async function getProfile(){
       try {
@@ -72,6 +86,17 @@ export default {
     return {
       profile: computed(() => AppState.activeProfile),
       posts: computed(() => AppState.posts),
+      // newer: computed(() =>AppState.newer),
+      // older: computed(() =>AppState.older),
+
+      // async changeProfilePage(url){
+      //         try {
+      //           logger.log('change page', url)
+      //           // await postsService.changeProfilePage(url)
+      //         } catch (error) {
+      //           Pop.error(error.message)
+      //         }
+      //       },
     }
 
   },

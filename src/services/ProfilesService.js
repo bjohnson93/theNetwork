@@ -21,6 +21,14 @@ class ProfilesService {
     AppState.page = res.data.page
     AppState.query = profileQuery
   }
+  async changePage(url) {
+    const res = await api.get(`api/profiles`)
+    logger.log('[CHANGING PAGE FROM SERVICE]', res.data)
+    logger.log('[url]', url)
+    AppState.posts = res.data.posts.map(p => new Post(p))
+    AppState.older = res.data.older
+    AppState.newer = res.data.newer
+  }
   clearProfiles() {
     AppState.profiles = []
     AppState.pages = 0

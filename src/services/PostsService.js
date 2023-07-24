@@ -26,37 +26,47 @@ class PostsService {
 
     AppState.posts = posts
   }
+  async changeProfilePage(url, profileId) {
+    logger.log(url, 'URL')
+    // const res = await api.get('api/posts', {
+    //   params: {
+    //     creatorId: profileId
+    //   }
+    // })
+    // logger.log('[CHANGING PAGE FROM SERVICE]', res.data)
+
+    // const posts = res.data.posts.map(p => new Post(p))
+    // AppState.older = res.data.older
+    // AppState.newer = res.data.newer
+
+    // AppState.activeProfile = posts
+
+  }
   async changePage(url) {
     const res = await api.get(url)
     logger.log('[CHANGING PAGE FROM SERVICE]', res.data)
 
+    AppState.posts = res.data.posts.map(p => new Post(p))
     AppState.older = res.data.older
     AppState.newer = res.data.newer
 
-    const posts = res.data.posts.map(p => new Post(p))
+
     // map was  not working, but map is needed? will come back later, map breaks button
     // const posts = res.data.posts
-    AppState.posts = posts
-  }
-  async changeProfilePage(url) {
-    const res = await api.get(`api/profiles/${url}`)
-    logger.log('[CHANGING PAGE FROM SERVICE]', res.data)
-
-    AppState.older = res.data.older
-    AppState.newer = res.data.newer
-
-    const posts = res.data.posts.map(p => new Post(p))
-    AppState.activeProfile = posts
-
   }
   setActivePost(post) {
     AppState.activePost = post
   }
-  async likePost(postData, myId) {
+  async likePost(postData) {
     // logger.log('[POST DATA:]', postData, '[MY ID]:', myId)
     // logger.log(myId)
-    const res = await api.post(`api/posts/:${myId}/like`, postData.id)
-    // logger.log(res.data)
+    // const res = await api.post(`api/posts/:${myId}/like`)
+    const res = await api.post(`api/posts/${postData.id}/like`)
+    AppState.posts.filter(p => p.id == p.id)
+    logger.log(res.data)
+    const postIndex = AppState.posts.findIndex(p => p.id == postData.id)
+    const post = new Post(res.data)
+    AppState.posts.splice(postIndex, 1, post)
     //this gets the post by id....
     // const postIndex = AppState.posts.findIndex(p => p.id == postData.id)
     // logger.log('res data...', res.data)

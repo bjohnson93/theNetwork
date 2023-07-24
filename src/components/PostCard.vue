@@ -24,7 +24,7 @@
                   <i v-if="account.id == post.creatorId" @click="removePost()" class="mdi mdi-delete selectable"></i>
                 </div> 
 
-                <div class="checkbox-custom "><i class="mdi mdi-heart-outline selectable" @click="likePost()"></i>
+                <div class="checkbox-custom "><i v-if="account.id" class="mdi mdi-heart-outline selectable" @click="likePost()"></i>
 {{post.likes.length}}</div>
                 </div>
 
@@ -65,10 +65,10 @@ export default {
           // logger.log(postData.id, '[post to likes id]')
           // logger.log(props.post.likeIds, '[likeIds of posts]')
           // const thisPostsLikes = props.post.likes
-          const myId = this.account.id
+          // const myId = this.account.id
           // logger.log('[is this my id?]', myId) 
           //this sends through the id of the post itself//
-          await postsService.likePost(postData, myId)
+          await postsService.likePost(postData)
         } catch (error) {
           Pop.error(error.message)
         }

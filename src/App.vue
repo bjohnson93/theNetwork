@@ -4,7 +4,7 @@
   </header>
   <main>
     <router-view />
-    <section class="row ">
+    <!-- <section class="row ">
     <div class="col-12 d-flex justify-content-around my-4">
       <div>
         <button @click="changePage(older)" :disabled="!older" class="btn btn-dark">Older</button>
@@ -15,7 +15,7 @@
 
       </div>
     </div>
-  </section>
+  </section> -->
 
     <section class="row">
 
@@ -51,17 +51,17 @@ export default {
       appState: computed(() => AppState),
       ads: computed(() => AppState.ads),
       posts: computed(() => AppState.posts),
-            newer: computed(() => AppState.newer),
-            older: computed(() => AppState.older),
+            // newer: computed(() => AppState.newer),
+            // older: computed(() => AppState.older),
 
-                  async changePage(url){
-              try {
-                // logger.log('change page', url)
-                await postsService.changePage(url)
-              } catch (error) {
-                Pop.error(error.message)
-              }
-            },
+            //       async changePage(url){
+            //   try {
+            //     // logger.log('change page', url)
+            //     await postsService.changePage(url)
+            //   } catch (error) {
+            //     Pop.error(error.message)
+            //   }
+            // },
     }
   },
   components: { Navbar }

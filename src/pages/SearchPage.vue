@@ -19,6 +19,7 @@
     </section>
   </div>
 
+
   <section class="row p-3 justify-content-evenly">
     <div v-for="profile in profiles" :key="profile.id" class="col-md-2 col-6 bg-white elevation-4 ">
   <section class="row">
@@ -83,7 +84,7 @@ export default {
         }
       }
     }
-  }
+  },
 }
 </script>
 

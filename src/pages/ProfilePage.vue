@@ -35,6 +35,18 @@
   </div>
 </section>
 
+<section class="row ">
+    <div class="col-12 d-flex justify-content-around my-4">
+      <div>
+        <button @click="changePage(older)" :disabled="!older"  class="btn btn-dark">Older</button>
+
+      </div>
+      <div>
+        <button @click="changePage(newer)" :disabled="!newer"  class="btn btn-dark">Newer</button>
+
+      </div>
+    </div>
+  </section>
 
 </template>
 
@@ -86,17 +98,18 @@ export default {
     return {
       profile: computed(() => AppState.activeProfile),
       posts: computed(() => AppState.posts),
-      // newer: computed(() =>AppState.newer),
-      // older: computed(() =>AppState.older),
+      newer: computed(() => AppState.newer),
+      older: computed(() => AppState.older),
 
-      // async changeProfilePage(url){
-      //         try {
-      //           logger.log('change page', url)
-      //           // await postsService.changeProfilePage(url)
-      //         } catch (error) {
-      //           Pop.error(error.message)
-      //         }
-      //       },
+      async changePage(url){
+          try {
+            // logger.log('change page', url)
+            // const profileId = route.params.profileId
+          await postsService.changePage(url)
+          } catch (error) {
+          Pop.error(error.message)
+          }
+       },
     }
 
   },

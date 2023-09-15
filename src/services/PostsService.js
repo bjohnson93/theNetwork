@@ -15,33 +15,42 @@ class PostsService {
     AppState.newer = res.data.newer
     AppState.older = res.data.older
   }
-  async getProfilePosts(profileId) {
-    const res = await api.get('api/posts', {
-      params: {
-        creatorId: profileId
-      }
-    })
-    logger.log('Did I get the right posts?', res.data)
-    const posts = res.data.posts.map(pojo => new Post(pojo))
+  // async getProfilePosts(profileId) {
+  //   const res = await api.get('api/posts', {
+  //     params: {
+  //       creatorId: profileId
+  //     }
+  //   })
+  //   logger.log('Did I get the right posts?', res.data)
+  //   const posts = res.data.posts.map(pojo => new Post(pojo))
 
-    AppState.posts = posts
-  }
-  async changeProfilePage(url, profileId) {
-    logger.log(url, 'URL')
-    // const res = await api.get('api/posts', {
-    //   params: {
-    //     creatorId: profileId
-    //   }
-    // })
-    // logger.log('[CHANGING PAGE FROM SERVICE]', res.data)
+  //   AppState.posts = posts
+  // }
+  // async changeProfilePage(url, profileId) {
+  //   logger.log(url, 'URL')
+  //   const res = await api.get(`api/profiles/${profileId}/posts`, url)
+  //   logger.log('[CHANGING PAGE FROM SERVICE]', res.data)
 
-    // const posts = res.data.posts.map(p => new Post(p))
-    // AppState.older = res.data.older
-    // AppState.newer = res.data.newer
+  //   // AppState.activeProfile = res.data.posts.map(p => new Post(p))
+  //   AppState.posts = res.data.posts.map(p => new Post(p))
+  //   AppState.older = res.data.older
+  //   AppState.newer = res.data.newer
 
-    // AppState.activeProfile = posts
+  // AppState.activeProfile = posts
+  // const res = await api.get('api/posts', {
+  //   params: {
+  //     creatorId: profileId
+  //   }
+  // })
+  // logger.log('[CHANGING PAGE FROM SERVICE]', res.data)
 
-  }
+  // const posts = res.data.posts.map(p => new Post(p))
+  // AppState.older = res.data.older
+  // AppState.newer = res.data.newer
+
+  // AppState.activeProfile = posts
+
+  // }
   async changePage(url) {
     const res = await api.get(url)
     logger.log('[CHANGING PAGE FROM SERVICE]', res.data)

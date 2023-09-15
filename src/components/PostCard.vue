@@ -1,10 +1,10 @@
 <template>
   <div class=" card bg-white  justify-content-between elevation-3">
         <div class="row d-flex p-3">
-          <div class="col-9 ">
-            <div class="d-flex mb-3">
+          <div class="col-md-9 col-12 ">
+            <div class="d-flex mb-3 ">
               <router-link :to="{name: 'Profile', params: {profileId: post.creatorId}}">
-                <img class="avatar" :src="post.creator.picture" :alt="post.creator.name" title="Open Profile">
+                <img class="avatar me-3" :src="post.creator.picture" :alt="post.creator.name" title="Open Profile">
               </router-link>
               <div>
                 <p class="fs-3">{{ post.creator.name }}</p>

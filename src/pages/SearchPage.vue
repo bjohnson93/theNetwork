@@ -32,7 +32,9 @@
 
   <div class="d-flex ">
     <div class=" d-flex align-items-center justify-content-center">
+      <!-- <router-link :to="{name: 'Profile', params: {profile: post.creatorId}}"> -->
       <img class="avatar me-2" :src="profile.picture" :alt="profile.name">
+    <!-- </router-link> -->
       <div class="flex-column">
         <p class="fs-3">{{profile.name}} <i v-if="profile.graduated" class="mdi mdi-school"></i></p>
         <p class="fs-5">Class: {{ profile.class }}</p>
@@ -64,10 +66,21 @@ import Pop from "../utils/Pop.js";
 import { AppState } from "../AppState.js";
 import { logger } from "../utils/Logger.js";
 import { Post } from "../models/Post.js";
-
+import { useRoute } from "vue-router";
+import { postsService } from "../services/PostsService.js";
+import ProfilePage from "./ProfilePage.vue";
 export default {
   setup(){
     const editable = ref({});
+    const route = useRoute();
+    // async function getProfilePosts(){
+    //   try {
+    //     const profileId = route.params.profileId
+    //     await postsService.getProfilePosts(profileId)
+    //   } catch (error) {
+    //     Pop.error(error.message)
+    //   }
+    // }
 
     return {
       editable,

@@ -35,6 +35,30 @@ class ProfilesService {
     AppState.posts = []
     AppState.query = null
   }
+  async getProfilePosts(profileId) {
+    const res = await api.get('api/posts', {
+      params: {
+        creatorId: profileId
+      }
+    })
+    logger.log('Did I get the right posts?', res.data)
+    const posts = res.data.posts.map(pojo => new Post(pojo))
+
+    AppState.posts = posts
+    AppState.older = res.data.older
+    AppState.newer = res.data.newer
+  }
+
+  async changeProfilePage(url) {
+    logger.log(url, 'URL')
+    const res = await api.get(url)
+    logger.log('[CHANGING PAGE FROM SERVICE]', res.data)
+
+    // AppState.activeProfile = res.data.posts.map(p => new Post(p))
+    AppState.posts = res.data.posts.map(p => new Post(p))
+    AppState.older = res.data.older
+    AppState.newer = res.data.newer
+  }
 
 }
 export const profilesService = new ProfilesService()
